@@ -4,6 +4,14 @@ A global `CLAUDE.md` with general software development rules for [Claude Code](h
 
 The rules are written to be read by the model, but they are plain English: you can also use them as a checklist for your own team.
 
+## Quick start
+
+1. Copy [`CLAUDE.md`](CLAUDE.md) to `~/.claude/CLAUDE.md` (details in [Install](#install)).
+2. Change rule 1, which sets the conversation language to Italian.
+3. Read [Rules are guidance, not enforcement](#rules-are-guidance-not-enforcement) if you want the safety rules to be a hard block.
+
+## Contents
+
 - [Philosophy](#philosophy)
 - [How a task flows](#how-a-task-flows)
 - [What the rules say](#what-the-rules-say)
@@ -12,6 +20,8 @@ The rules are written to be read by the model, but they are plain English: you c
 - [Documentation layout](#documentation-layout)
 - [Install](#install)
 - [Adapt before using](#adapt-before-using)
+- [Context cost and modular use](#context-cost-and-modular-use)
+- [Rules are guidance, not enforcement](#rules-are-guidance-not-enforcement)
 - [Editing the rules](#editing-the-rules)
 - [License](#license)
 
@@ -142,6 +152,40 @@ These rules reflect the author's preferences. Check at least:
 - **Rules 12 to 14, subagents and models**: the model names (Haiku, Sonnet, Opus, Fable) and the cost/benefit policy depend on the plan you have.
 - **Rule 30, mockups**: requiring at least 3 mockups is a deliberate choice for UI work; remove it if it does not fit your workflow.
 - **Rule 5, research**: it assumes Claude can search the web. Adjust it if your sessions are offline.
+
+## Context cost and modular use
+
+`CLAUDE.md` is about 21 KB and is loaded at the start of every session, so it uses part of the model's context window each time. The token count has not been measured here.
+
+If you do not build user interfaces, you can drop the UI/UX parts and keep the rest:
+
+- rules 30 to 43 (UI/UX process), rule 46 (design critique), rule 48 (frontend performance) and the "UI/UX design standards" appendix;
+- then fix the references that pointed to them: the "Precedence" line (mentions design decisions), rule 8 (UI mockups and prototypes), rule 9 (the `docs/design/` example) and rule 27 (the Definition of Done mentions the design critique and the final quality check).
+
+## Rules are guidance, not enforcement
+
+The text in `CLAUDE.md` is an instruction to the model, not a technical barrier. A model can misread it or forget it. For the safety rules (20 to 23: push, destructive commands, installs) you can add a hard block with permission rules in `~/.claude/settings.json`:
+
+```json
+{
+  "permissions": {
+    "deny": [
+      "Bash(git push *)",
+      "Bash(git reset --hard *)",
+      "Bash(git clean *)"
+    ]
+  }
+}
+```
+
+What the official documentation says (source: [Configure permissions](https://code.claude.com/docs/en/permissions), read on 2026-11-12):
+
+- Rules are evaluated in the order deny, then ask, then allow, and the first match wins.
+- Use an `ask` list instead of `deny` if you want a prompt rather than a block.
+- A Bash rule matches the command text as Claude writes it. It is not a security boundary: `Bash(git push *)` stops `git push origin main` but not `git -C . push origin main`.
+- For enforcement that does not depend on the command text, the documentation points to sandboxing and to `PreToolUse` hooks.
+
+Check the page above for the current syntax before relying on it: the permission system can change between Claude Code versions.
 
 ## Editing the rules
 
