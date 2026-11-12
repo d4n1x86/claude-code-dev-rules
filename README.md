@@ -4,6 +4,8 @@ A global `CLAUDE.md` with general software development rules for [Claude Code](h
 
 The rules are written to be read by the model, but they are plain English: you can also use them as a checklist for your own team.
 
+Current version: **1.0.0** (see the [changelog](CHANGELOG.md)). Licensed under [CC BY 4.0](#license-and-attribution): reuse it freely, but credit the author.
+
 ## Quick start
 
 1. Copy [`CLAUDE.md`](CLAUDE.md) to `~/.claude/CLAUDE.md` (details in [Install](#install)).
@@ -23,7 +25,8 @@ The rules are written to be read by the model, but they are plain English: you c
 - [Context cost and modular use](#context-cost-and-modular-use)
 - [Rules are guidance, not enforcement](#rules-are-guidance-not-enforcement)
 - [Editing the rules](#editing-the-rules)
-- [License](#license)
+- [Versioning](#versioning)
+- [License and attribution](#license-and-attribution)
 
 The full text is in [`CLAUDE.md`](CLAUDE.md) (49 numbered rules, plus a UI/UX standards appendix).
 
@@ -191,6 +194,28 @@ Check the page above for the current syntax before relying on it: the permission
 
 The rules refer to each other by number (for example rule 27 points to rules 24, 25, 26, 46 and 47). If you add, remove or reorder a rule, update the references too. Prefer extending an existing rule over adding a new numbered one.
 
-## License
+## Versioning
 
-[MIT](LICENSE)
+The repository follows [Semantic Versioning](https://semver.org/) and every release is a Git tag (`v1.0.0`, ...). Changes are listed in [`CHANGELOG.md`](CHANGELOG.md). For a set of rules, the numbers mean:
+
+| Bump | When | Example |
+|------|------|---------|
+| Major (`2.0.0`) | A rule is removed or renumbered, or its meaning changes in a way that can alter existing behavior. | Dropping the mockup requirement. |
+| Minor (`1.1.0`) | A new rule is added, or a rule is extended or relaxed without changing the existing ones. | A new rule on logging. |
+| Patch (`1.0.1`) | Typos, wording and README changes that do not change what a rule asks for. | Fixing a broken cross-reference. |
+
+## License and attribution
+
+Copyright (c) 2026 d4n1x86. Licensed under the [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/) (CC BY 4.0). The full legal text is in [`LICENSE`](LICENSE).
+
+You may share and adapt this work, including commercially, as long as you:
+
+- give appropriate credit,
+- link to the license,
+- indicate if you made changes.
+
+Suggested attribution:
+
+> Based on [claude-code-dev-rules](https://github.com/d4n1x86/claude-code-dev-rules) by d4n1x86, licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
+
+Earlier commits, up to and including `a6da19c`, were published under the MIT License. Versions from `v1.0.0` on are licensed under CC BY 4.0.
